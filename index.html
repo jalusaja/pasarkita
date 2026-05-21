@@ -240,6 +240,12 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:48px 5% 28px;}
 .popup-btn:hover{background:var(--or2);}
 .popup-skip{text-align:center;margin-top:10px;font-size:12px;color:var(--text3);cursor:pointer;}
 .popup-skip:hover{color:var(--or);}
+
+/* SHARE BUTTON */
+.ishare{width:28px;height:28px;background:var(--or-s);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:all .15s;border:none;flex-shrink:0;}
+.ishare:hover{background:var(--or);color:#fff;}
+.share-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1c1917;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;z-index:999;animation:fadeInOut 2.5s ease forwards;pointer-events:none;white-space:nowrap;}
+@keyframes fadeInOut{0%{opacity:0;transform:translateX(-50%) translateY(8px)}15%{opacity:1;transform:translateX(-50%) translateY(0)}75%{opacity:1}100%{opacity:0}}
 </style>
 </head>
 <body>
@@ -550,7 +556,10 @@ function renderCard(p, isNew=false){
       <div class="isell">👤 ${p.seller}</div>
       <div class="ifooter">
         <span class="iprice">${p.price}</span>
-        <button class="iwa" onclick="event.stopPropagation();wa('${p.wa||p.seller}','${p.name}')">💬</button>
+        <div style="display:flex;gap:5px;">
+          <button class="iwa" onclick="event.stopPropagation();wa('${p.wa||p.seller}','${p.name}')" title="Hubungi via WA">💬</button>
+          <button class="ishare" onclick="event.stopPropagation();shareProduct('${p.name}','${p.seller}','${p.price}','${p.area}','${p.wa||p.seller}')" title="Bagikan">🔗</button>
+        </div>
       </div>
     </div>
   </div>`;
@@ -826,6 +835,39 @@ function tutupPopupHari(){
 
 // Jalankan saat halaman dimuat
 loadPengumuman();
+
+
+// ============ SHARE PRODUK ============
+function shareProduct(name, seller, price, area, wa){
+  const siteUrl = window.location.href.split('?')[0];
+  const msg = '\uD83D\uDED2 *' + name + '*\n'
+    + '\uD83D\uDC64 ' + seller + '\n'
+    + '\uD83D\uDCB0 ' + price + '\n'
+    + '\uD83D\uDCCD ' + area + '\n\n'
+    + 'Temukan produk & jasa lainnya di komunitas kita:\n'
+    + siteUrl;
+
+  // Coba Web Share API dulu (mobile)
+  if(navigator.share){
+    navigator.share({
+      title: name + ' — PasarKita',
+      text : msg,
+      url  : siteUrl
+    }).catch(()=>{});
+  } else {
+    // Fallback: buka WA share
+    window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+  }
+  showShareToast();
+}
+
+function showShareToast(){
+  const el = document.createElement('div');
+  el.className = 'share-toast';
+  el.textContent = '\uD83D\uDD17 Link produk siap dibagikan!';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 2600);
+}
 
 </script>
 
