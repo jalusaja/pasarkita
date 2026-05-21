@@ -2,6 +2,11 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ea580c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="PasarKita">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PasarKita — Marketplace Komunitas</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
@@ -455,6 +460,7 @@ const IMGBB_KEY  = 'dd035536e866fbd39089600e00e590d3';               // ← Opsi
 // Caranya: buka apps-script.js → ikuti langkah → paste URL di sini
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMKxEh0r2k26GYeRx4D4bs9ceCx_BySrcFWmVquox5yksP5XvHFwDzuo0yIAhjB5LSuA/exec';               // contoh: 'https://script.google.com/macros/s/ABC.../exec'
 // ============================================================
+
 // ============ STATUS BACKEND ============
 let backendReady = false; // true jika SCRIPT_URL sudah diisi
 
@@ -888,6 +894,16 @@ function showShareToast(){
   el.textContent = '\uD83D\uDD17 Link produk siap dibagikan!';
   document.body.appendChild(el);
   setTimeout(()=>el.remove(), 2600);
+}
+
+
+// ============ PWA SERVICE WORKER ============
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('/pasarkita/sw.js')
+      .then(()=>console.log('SW registered'))
+      .catch(e=>console.warn('SW error:',e));
+  });
 }
 
 </script>
