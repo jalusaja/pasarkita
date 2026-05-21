@@ -455,7 +455,6 @@ const IMGBB_KEY  = 'dd035536e866fbd39089600e00e590d3';               // ← Opsi
 // Caranya: buka apps-script.js → ikuti langkah → paste URL di sini
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMKxEh0r2k26GYeRx4D4bs9ceCx_BySrcFWmVquox5yksP5XvHFwDzuo0yIAhjB5LSuA/exec';               // contoh: 'https://script.google.com/macros/s/ABC.../exec'
 // ============================================================
-
 // ============ STATUS BACKEND ============
 let backendReady = false; // true jika SCRIPT_URL sudah diisi
 
@@ -486,33 +485,55 @@ async function getProducts(){
       const res  = await fetch(SCRIPT_URL + '?t=' + Date.now());
       const text = await res.text();
       const data = JSON.parse(text);
-      if(Array.isArray(data)){
+      if(Array.isArray(data) && data.length > 0){
         const mapped = data.map((p,i)=>{
-          const fk = Object.keys(p).find(k=>k.toLowerCase().includes('foto')||k.toLowerCase().includes('link')) || '';
-          const wk = Object.keys(p).find(k=>k.toLowerCase().includes('whatsapp')||k.toLowerCase().includes('wa')) || '';
-          const tk = Object.keys(p).find(k=>k.toLowerCase().includes('jenis')) || '';
-          const nk = Object.keys(p).find(k=>k.toLowerCase().includes('nama produk')||k.toLowerCase().includes('nama jasa')) || 'Nama Produk atau Jasa';
-          const hk = Object.keys(p).find(k=>k.toLowerCase().includes('harga')||k.toLowerCase().includes('tarif')) || '';
-          const ck = Object.keys(p).find(k=>k.toLowerCase().includes('kategori')) || '';
-          const ak = Object.keys(p).find(k=>k.toLowerCase().includes('area')||k.toLowerCase().includes('wilayah')) || '';
-          const dk = Object.keys(p).find(k=>k.toLowerCase().includes('deskripsi')) || '';
-          const tipe = (p[tk]||'produk').toLowerCase();
-          return {
-            id    : 'gf'+i,
-            type  : tipe,
-            name  : p[nk]  || p['Nama Produk atau Jasa'] || '—',
-            seller: p['Nama Lengkap'] || '—',
-            price : 'Rp '+Number(p[hk]||0).toLocaleString('id-ID'),
-            cat   : p[ck]  || '—',
-            area  : p[ak]  || '—',
-            desc  : p[dk]  || '',
-            img   : p[fk]  || '',
-            emoji : tipe==='jasa'?'\u{1F527}':'\u{1F4E6}',
-            bg    : tipe==='jasa'?'bg-or':'bg-gn',
-            wa    : String(p[wk]||'').replace(/[^0-9]/g,''),
-            status: p['Status']||'Menunggu',
-          };
-        });
+          // Cek apakah data sudah dipetakan (dari Apps Script baru)
+          // atau masih format mentah Google Form
+          const sudahDipetakan = p.hasOwnProperty('name') && p.hasOwnProperty('seller');
+          if(sudahDipetakan){
+            // Data sudah bersih dari Apps Script — langsung pakai
+            const tipe = (p.type||'produk').toLowerCase();
+            return {
+              id    : p.id || 'gf'+i,
+              type  : tipe,
+              name  : p.name   || '—',
+              seller: p.seller || '—',
+              price : p.price  || '—',
+              cat   : p.cat    || '—',
+              area  : p.area   || '—',
+              desc  : p.desc   || '',
+              img   : p.img    || '',
+              emoji : tipe==='jasa'?'🔧':'📦',
+              bg    : tipe==='jasa'?'bg-or':'bg-gn',
+              wa    : String(p.wa||'').replace(/[^0-9]/g,''),
+            };
+          } else {
+            // Data mentah dari Google Form — petakan manual
+            const fk = Object.keys(p).find(k=>k.toLowerCase().includes('foto')||k.toLowerCase().includes('link')) || '';
+            const wk = Object.keys(p).find(k=>k.toLowerCase().includes('whatsapp')||k.toLowerCase().includes('wa')) || '';
+            const tk = Object.keys(p).find(k=>k.toLowerCase().includes('jenis')) || '';
+            const nk = Object.keys(p).find(k=>k.toLowerCase().includes('nama produk')||k.toLowerCase().includes('nama jasa')) || '';
+            const hk = Object.keys(p).find(k=>k.toLowerCase().includes('harga')||k.toLowerCase().includes('tarif')) || '';
+            const ck = Object.keys(p).find(k=>k.toLowerCase().includes('kategori')) || '';
+            const ak = Object.keys(p).find(k=>k.toLowerCase().includes('area')||k.toLowerCase().includes('wilayah')) || '';
+            const dk = Object.keys(p).find(k=>k.toLowerCase().includes('deskripsi')) || '';
+            const tipe = (p[tk]||'produk').toLowerCase().includes('jasa')?'jasa':'produk';
+            return {
+              id    : 'gf'+i,
+              type  : tipe,
+              name  : p[nk]  || '—',
+              seller: p['Nama Lengkap'] || '—',
+              price : p[hk] ? 'Rp '+Number(p[hk]).toLocaleString('id-ID') : '—',
+              cat   : p[ck]  || '—',
+              area  : p[ak]  || '—',
+              desc  : p[dk]  || '',
+              img   : p[fk]  || '',
+              emoji : tipe==='jasa'?'🔧':'📦',
+              bg    : tipe==='jasa'?'bg-or':'bg-gn',
+              wa    : String(p[wk]||'').replace(/[^0-9]/g,''),
+            };
+          }
+        }).filter(p=> p.name && p.name !== '—');
         return [...INIT_PRODUCTS, ...mapped];
       }
     } catch(e){ console.warn('Backend error:',e.message); }
