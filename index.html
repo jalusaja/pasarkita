@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PasarKita — Marketplace Komunitas</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --or:#ea580c;--or2:#c2410c;--or3:#9a3412;
+  --or-l:#fff7ed;--or-m:#fed7aa;--or-s:#ffedd5;
+  --dark:#1c1917;--dark2:#292524;
+  --text:#1c1917;--text2:#57534e;--text3:#a8a29e;
+  --border:#e7e5e4;--border2:#d6d3d1;
+  --bg:#fafaf9;--white:#fff;
+  --r:14px;--rsm:8px;--rlg:20px;--rxl:28px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 5%;}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1140px;margin:0 auto;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-m{width:38px;height:38px;background:var(--or);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.logo-t{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--dark);}
+.logo-t span{color:var(--or);}
+.nav-l{display:flex;gap:24px;}
+.nav-l a{font-size:14px;color:var(--text2);text-decoration:none;font-weight:500;}
+.nav-l a:hover{color:var(--or);}
+.nav-c{display:flex;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:30px;font-size:14px;font-weight:600;cursor:pointer;transition:all .18s;text-decoration:none;border:none;font-family:inherit;}
+.b-out{background:transparent;color:var(--or);border:1.5px solid var(--or);}
+.b-out:hover{background:var(--or-s);}
+.b-or{background:var(--or);color:#fff;box-shadow:0 2px 14px rgba(234,88,12,.28);}
+.b-or:hover{background:var(--or2);transform:translateY(-1px);}
+.b-lg{padding:13px 28px;font-size:15px;}
+.b-ghost{background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.35);}
+.b-ghost:hover{background:rgba(255,255,255,.25);}
+.b-white{background:#fff;color:var(--or);font-weight:700;}
+.b-white:hover{background:var(--or-s);}
+
+/* HERO */
+.hero{padding:112px 5% 64px;background:linear-gradient(150deg,#fff7ed 0%,#fffbeb 50%,#fafaf9 100%);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(234,88,12,.07) 0%,transparent 70%);pointer-events:none;}
+.hero-in{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+.h-pill{display:inline-flex;align-items:center;gap:6px;background:var(--or-s);color:var(--or2);padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:16px;border:1px solid var(--or-m);}
+.hero h1{font-family:'Sora',sans-serif;font-size:44px;font-weight:800;line-height:1.15;margin-bottom:16px;color:var(--dark);}
+.hero h1 em{color:var(--or);font-style:normal;}
+.hero-desc{font-size:15px;color:var(--text2);max-width:430px;line-height:1.75;margin-bottom:24px;}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;}
+.hero-stat{display:flex;gap:24px;margin-top:28px;padding-top:24px;border-top:1px solid var(--border);}
+.sn{font-size:20px;font-weight:700;color:var(--dark);}
+.sl{font-size:12px;color:var(--text3);}
+.hv{display:flex;flex-direction:column;gap:12px;}
+.hvc{background:#fff;border-radius:var(--rlg);padding:18px;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.06);}
+.hv-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:10px;}
+.tj{background:var(--or-s);color:var(--or2);}
+.tp{background:#dcfce7;color:#15803d;}
+.hv-row{display:flex;align-items:center;gap:12px;}
+.hv-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.hv-name{font-size:13px;font-weight:600;}
+.hv-cat{font-size:11px;color:var(--text3);}
+.hv-price{margin-left:auto;font-size:14px;font-weight:700;color:var(--or);}
+.hv-wa{display:flex;align-items:center;gap:6px;margin-top:10px;background:#f0fdf4;border-radius:var(--rsm);padding:8px 12px;font-size:12px;color:#166534;font-weight:500;}
+
+/* STATS */
+.sbar{background:var(--or);padding:26px 5%;}
+.sbar-in{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);text-align:center;}
+.sb-n{font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#fff;}
+.sb-l{font-size:12px;color:rgba(255,255,255,.75);margin-top:2px;}
+
+/* SECTIONS */
+.sec{padding:68px 5%;}
+.sec-in{max-width:1140px;margin:0 auto;}
+.eye{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--or);margin-bottom:8px;}
+.stitle{font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:var(--dark);margin-bottom:8px;line-height:1.3;}
+.ssub{font-size:14px;color:var(--text2);max-width:500px;}
+.sec-head{margin-bottom:36px;}
+
+/* TABS */
+.tabs{display:flex;gap:6px;margin-bottom:24px;border-bottom:2px solid var(--border);}
+.tbtn{padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text3);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;font-family:inherit;}
+.tbtn.on{color:var(--or);border-bottom-color:var(--or);}
+.tcont{display:none;}
+.tcont.on{display:block;}
+
+/* CATALOG CARDS */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;}
+.icard{background:#fff;border:1px solid var(--border);border-radius:var(--rlg);overflow:hidden;transition:all .2s;cursor:pointer;}
+.icard:hover{box-shadow:0 8px 28px rgba(0,0,0,.1);transform:translateY(-3px);border-color:var(--or-m);}
+
+/* IMAGE AREA — support foto asli & emoji fallback */
+.iimg{height:140px;display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;overflow:hidden;}
+.iimg img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.iimg .emoji-fb{font-size:48px;z-index:1;}
+.bg-or{background:var(--or-s);}
+.bg-gn{background:#dcfce7;}
+.bg-bl{background:#dbeafe;}
+.bg-pu{background:#ede9fe;}
+.bg-yw{background:#fef9c3;}
+.bg-pk{background:#fce7f3;}
+
+.ibody{padding:14px;}
+.itype{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-bottom:6px;}
+.itj{background:var(--or-s);color:var(--or2);}
+.itp{background:#dcfce7;color:#15803d;}
+.iname{font-size:13px;font-weight:600;margin-bottom:3px;}
+.isell{font-size:11px;color:var(--text3);margin-bottom:8px;}
+.ifooter{display:flex;align-items:center;justify-content:space-between;}
+.iprice{font-size:14px;font-weight:700;color:var(--or);}
+.iwa{width:28px;height:28px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;cursor:pointer;transition:transform .15s;border:none;}
+.iwa:hover{transform:scale(1.15);}
+.new-badge{position:absolute;top:8px;left:8px;background:var(--or);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;z-index:2;}
+.add-card{border:2px dashed var(--or-m) !important;background:var(--or-s) !important;}
+
+/* MEMBERS */
+.msec{background:var(--dark);padding:68px 5%;}
+.msec-in{max-width:1140px;margin:0 auto;}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:12px;margin-top:32px;}
+.mcard{background:var(--dark2);border:1px solid rgba(255,255,255,.08);border-radius:var(--rlg);padding:20px 16px;text-align:center;transition:all .2s;cursor:pointer;}
+.mcard:hover{border-color:rgba(234,88,12,.45);background:rgba(234,88,12,.05);}
+.mav{width:52px;height:52px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid rgba(255,255,255,.1);}
+.mname{font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;}
+.mspec{font-size:12px;color:rgba(255,255,255,.45);margin-bottom:10px;}
+.mtags{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;}
+.mt{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;}
+.mtj{background:rgba(234,88,12,.2);color:#fb923c;}
+.mtp{background:rgba(34,197,94,.15);color:#4ade80;}
+.mwa{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:12px;color:#4ade80;text-decoration:none;cursor:pointer;}
+
+/* HOW IT WORKS */
+.hgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px;}
+.hcard{background:#fff;border:1px solid var(--border);border-radius:var(--rlg);padding:24px;transition:all .2s;}
+.hcard:hover{border-color:var(--or-m);box-shadow:0 4px 20px rgba(234,88,12,.08);}
+.hnum{font-family:'Sora',sans-serif;font-size:38px;font-weight:800;color:var(--or-m);line-height:1;margin-bottom:12px;}
+.hicon{font-size:26px;margin-bottom:10px;display:block;}
+.hcard h3{font-size:15px;font-weight:600;margin-bottom:6px;}
+.hcard p{font-size:13px;color:var(--text2);line-height:1.65;}
+
+/* CTA */
+.cta-sec{background:linear-gradient(135deg,var(--or) 0%,var(--or2) 100%);padding:68px 5%;text-align:center;}
+.cta-in{max-width:560px;margin:0 auto;}
+.cta-sec h2{font-family:'Sora',sans-serif;font-size:30px;font-weight:700;color:#fff;margin-bottom:10px;}
+.cta-sec p{font-size:15px;color:rgba(255,255,255,.8);margin-bottom:26px;}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+/* FOOTER */
+footer{background:var(--dark);color:rgba(255,255,255,.5);padding:48px 5% 28px;}
+.fin{max-width:1140px;margin:0 auto;}
+.ftop{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:32px;}
+.flogo{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.flm{width:30px;height:30px;background:var(--or);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.flt{font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#fff;}
+.flt span{color:#fb923c;}
+.fdesc{font-size:13px;line-height:1.7;max-width:220px;}
+.fcol h4{font-size:13px;font-weight:600;color:#fff;margin-bottom:10px;}
+.fcol a{display:block;font-size:13px;color:rgba(255,255,255,.4);text-decoration:none;margin-bottom:7px;transition:color .15s;}
+.fcol a:hover{color:#fb923c;}
+.fbot{border-top:1px solid rgba(255,255,255,.08);padding-top:18px;display:flex;justify-content:space-between;font-size:12px;flex-wrap:wrap;gap:8px;}
+
+/* WA FLOAT */
+.waf{position:fixed;bottom:26px;right:26px;z-index:150;background:#25d366;color:#fff;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 20px rgba(37,211,102,.4);text-decoration:none;transition:all .2s;cursor:pointer;border:none;font-family:inherit;}
+.waf:hover{transform:scale(1.1);}
+
+/* MODAL */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:none;align-items:center;justify-content:center;padding:16px;}
+.ov.open{display:flex;}
+.modal{background:#fff;border-radius:var(--rxl);padding:28px;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;position:relative;animation:su .25s ease;}
+@keyframes su{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.mx{position:absolute;top:14px;right:14px;width:28px;height:28px;border-radius:50%;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:15px;color:var(--text2);display:flex;align-items:center;justify-content:center;}
+.mx:hover{background:var(--border);}
+.modal h2{font-family:'Sora',sans-serif;font-size:19px;font-weight:700;margin-bottom:4px;}
+.msub-t{font-size:13px;color:var(--text3);margin-bottom:18px;}
+.fg{margin-bottom:13px;}
+.fg label{display:block;font-size:12px;font-weight:600;margin-bottom:5px;color:var(--text2);}
+.fg input,.fg select,.fg textarea{width:100%;padding:9px 12px;border:1.5px solid var(--border2);border-radius:var(--rsm);font-size:13px;font-family:inherit;outline:none;color:var(--text);background:#fff;transition:border .15s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--or);}
+.fg textarea{min-height:70px;resize:vertical;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fsub{width:100%;padding:12px;background:var(--or);color:#fff;border:none;border-radius:30px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .18s;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.fsub:hover:not(:disabled){background:var(--or2);}
+.fsub:disabled{opacity:.6;cursor:not-allowed;}
+.odiv{text-align:center;font-size:12px;color:var(--text3);margin:12px 0;position:relative;}
+.odiv::before,.odiv::after{content:'';position:absolute;top:50%;width:40%;height:1px;background:var(--border);}
+.odiv::before{left:0;}.odiv::after{right:0;}
+.wabtn{width:100%;padding:12px;background:#25d366;color:#fff;border:none;border-radius:30px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;}
+.ok-box{background:var(--or-s);border:1px solid var(--or-m);border-radius:var(--r);padding:16px;text-align:center;display:none;}
+.ok-box.show{display:block;}
+.ok-box h3{color:var(--or2);font-size:14px;margin-bottom:4px;}
+.ok-box p{font-size:13px;color:var(--or3);}
+.ttog{display:flex;border:1.5px solid var(--border2);border-radius:var(--rsm);overflow:hidden;margin-bottom:14px;}
+.tt{flex:1;padding:9px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;border:none;background:#fff;color:var(--text3);font-family:inherit;transition:all .15s;}
+.tt.on{background:var(--or);color:#fff;}
+
+/* IMAGE UPLOAD */
+.upload-zone{border:2px dashed var(--border2);border-radius:var(--rsm);padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:#fafaf9;position:relative;}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--or);background:var(--or-s);}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-icon{font-size:28px;margin-bottom:6px;}
+.upload-text{font-size:13px;font-weight:500;color:var(--text2);}
+.upload-hint{font-size:11px;color:var(--text3);margin-top:3px;}
+.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.preview-item{position:relative;border-radius:var(--rsm);overflow:hidden;aspect-ratio:1;background:var(--bg);}
+.preview-item img{width:100%;height:100%;object-fit:cover;}
+.preview-del{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:none;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;}
+.preview-del:hover{background:var(--or);}
+.upload-progress{background:var(--or-s);border:1px solid var(--or-m);border-radius:var(--rsm);padding:10px 14px;display:none;align-items:center;gap:10px;margin-top:8px;}
+.upload-progress.show{display:flex;}
+.progress-bar-wrap{flex:1;background:var(--or-m);border-radius:4px;height:6px;overflow:hidden;}
+.progress-bar{height:100%;background:var(--or);border-radius:4px;transition:width .3s;width:0%;}
+.progress-txt{font-size:11px;color:var(--or2);white-space:nowrap;}
+.upload-done{background:#dcfce7;border:1px solid #86efac;border-radius:var(--rsm);padding:8px 12px;font-size:12px;color:#15803d;display:none;margin-top:6px;}
+.upload-done.show{display:block;}
+.api-note{background:var(--or-s);border:1px solid var(--or-m);border-radius:var(--rsm);padding:10px 12px;font-size:12px;color:var(--or3);margin-bottom:14px;}
+.api-note a{color:var(--or);font-weight:600;}
+
+@media(max-width:768px){
+  .hero-in,.ftop{grid-template-columns:1fr;}
+  .hero h1{font-size:30px;}
+  .hv,.sbar-in{display:none;}
+  .nav-l{display:none;}
+  .hgrid{grid-template-columns:1fr;}
+  .mgrid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:480px){.frow{grid-template-columns:1fr;}.mgrid,.preview-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="logo" href="#"><div class="logo-m">&#128722;</div><span class="logo-t">Pasar<span>Kita</span></span></a>
+    <div class="nav-l">
+      <a href="#katalog">Katalog</a><a href="#anggota">Anggota</a>
+      <a href="#cara-kerja">Cara Kerja</a><a href="#bergabung">Bergabung</a>
+    </div>
+    <div class="nav-c">
+      <button class="btn b-out" onclick="openM('daftar')">Daftar Anggota</button>
+      <button class="btn b-or" onclick="openM('jual')">+ Pasarkan</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-in">
+    <div>
+      <div class="h-pill">&#129309; Marketplace Komunitas</div>
+      <h1>Saling Memasarkan,<br><em>Saling Menguatkan</em></h1>
+      <p class="hero-desc">Platform khusus anggota komunitas untuk memasarkan jasa dan produk dagangan. Lengkap dengan foto produk. Tidak ada potongan — 100% keuntungan untuk anggota.</p>
+      <div class="hero-cta">
+        <button class="btn b-or b-lg" onclick="openM('jual')">&#128722; Pasarkan Sekarang</button>
+        <button class="btn b-out b-lg" onclick="openM('daftar')">Daftar Anggota</button>
+      </div>
+      <div class="hero-stat">
+        <div><div class="sn">85+</div><div class="sl">Anggota Aktif</div></div>
+        <div><div class="sn">120+</div><div class="sl">Produk &amp; Jasa</div></div>
+        <div><div class="sn">0%</div><div class="sl">Potongan Komisi</div></div>
+      </div>
+    </div>
+    <div class="hv">
+      <div class="hvc"><div class="hv-tag tj">&#128296; Jasa</div><div class="hv-row"><div class="hv-av" style="background:var(--or-s);">&#128119;</div><div><div class="hv-name">Pak Fadhil</div><div class="hv-cat">Instalasi Listrik</div></div><div class="hv-price">Rp 120rb/hari</div></div><div class="hv-wa">&#128172; Hubungi langsung via WhatsApp</div></div>
+      <div class="hvc"><div class="hv-tag tp">&#128230; Produk</div><div class="hv-row"><div class="hv-av" style="background:#dcfce7;">&#127850;</div><div><div class="hv-name">Bu Hafsah</div><div class="hv-cat">Kue Kering Homemade</div></div><div class="hv-price">Rp 45rb/toples</div></div><div class="hv-wa">&#128172; Order langsung — siap kirim!</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="sbar"><div class="sbar-in">
+  <div><div class="sb-n">85+</div><div class="sb-l">Anggota Komunitas</div></div>
+  <div><div class="sb-n">60+</div><div class="sb-l">Produk Dagangan</div></div>
+  <div><div class="sb-n">40+</div><div class="sb-l">Penawaran Jasa</div></div>
+  <div><div class="sb-n">0%</div><div class="sb-l">Potongan untuk Anggota</div></div>
+</div></div>
+
+<section class="sec" id="katalog">
+  <div class="sec-in">
+    <div class="sec-head">
+      <div class="eye">Katalog Komunitas</div>
+      <div class="stitle">Jasa &amp; Produk Anggota</div>
+      <div class="ssub">Klik &#128172; untuk hubungi langsung via WhatsApp. Tidak ada potongan apapun.</div>
+    </div>
+    <div class="tabs">
+      <button class="tbtn on" onclick="sw('semua')">&#127823; Semua</button>
+      <button class="tbtn" onclick="sw('jasa')">&#128296; Jasa</button>
+      <button class="tbtn" onclick="sw('produk')">&#128230; Produk</button>
+    </div>
+    <div class="tcont on" id="t-semua"><div class="cgrid" id="grid-semua"></div></div>
+    <div class="tcont" id="t-jasa"><div class="cgrid" id="grid-jasa"></div></div>
+    <div class="tcont" id="t-produk"><div class="cgrid" id="grid-produk"></div></div>
+  </div>
+</section>
+
+<section class="msec" id="anggota">
+  <div class="msec-in">
+    <div class="eye" style="color:#fb923c;">Direktori Anggota</div>
+    <div class="stitle" style="color:#fff;font-family:Sora,sans-serif;font-size:28px;font-weight:700;margin-bottom:8px;">Kenali sesama anggota komunitas</div>
+    <div class="ssub" style="color:rgba(255,255,255,.5);">Utamakan membeli dan menggunakan jasa sesama anggota. Uang berputar di dalam komunitas kita.</div>
+    <div class="mgrid">
+      <div class="mcard" onclick="wa('Pak Fadhil','jasa')"><div class="mav" style="background:rgba(234,88,12,.2);">&#128119;</div><div class="mname">Pak Fadhil</div><div class="mspec">Teknisi Listrik &middot; Kediri Utara</div><div class="mtags"><span class="mt mtj">Jasa</span></div><a class="mwa">&#128172; Hubungi</a></div>
+      <div class="mcard" onclick="wa('Bu Hafsah','produk')"><div class="mav" style="background:rgba(34,197,94,.12);">&#128105;&#8205;&#127859;</div><div class="mname">Bu Hafsah</div><div class="mspec">UMKM Kuliner &middot; Ngasem</div><div class="mtags"><span class="mt mtp">Produk</span></div><a class="mwa">&#128172; Hubungi</a></div>
+      <div class="mcard" onclick="wa('Ustadzah Maryam','jasa')"><div class="mav" style="background:rgba(99,102,241,.15);">&#128218;</div><div class="mname">Ustadzah Maryam</div><div class="mspec">Pendidik &middot; Kota Kediri</div><div class="mtags"><span class="mt mtj">Jasa</span></div><a class="mwa">&#128172; Hubungi</a></div>
+      <div class="mcard" onclick="wa('Pak Rizal','produk')"><div class="mav" style="background:rgba(234,179,8,.15);">&#128424;&#65039;</div><div class="mname">Pak Rizal</div><div class="mspec">Sablon &amp; Cetak &middot; Gampengrejo</div><div class="mtags"><span class="mt mtp">Produk</span></div><a class="mwa">&#128172; Hubungi</a></div>
+      <div class="mcard" onclick="wa('Bu Aminah','produk')"><div class="mav" style="background:rgba(236,72,153,.12);">&#127857;</div><div class="mname">Bu Aminah</div><div class="mspec">Catering &middot; Mojoroto</div><div class="mtags"><span class="mt mtp">Produk</span></div><a class="mwa">&#128172; Hubungi</a></div>
+      <div class="mcard" onclick="wa('Pak Hasan','jasa')"><div class="mav" style="background:rgba(14,165,233,.15);">&#128241;</div><div class="mname">Pak Hasan</div><div class="mspec">Teknisi HP &middot; Kota Kediri</div><div class="mtags"><span class="mt mtj">Jasa</span></div><a class="mwa">&#128172; Hubungi</a></div>
+      <div class="mcard" onclick="wa('Bu Salma','produk')"><div class="mav" style="background:rgba(236,72,153,.1);">&#129333;</div><div class="mname">Bu Salma</div><div class="mspec">Fashion Muslim &middot; Ngasem</div><div class="mtags"><span class="mt mtp">Produk</span></div><a class="mwa">&#128172; Hubungi</a></div>
+      <div class="mcard" onclick="wa('Pak Yusuf','jasa')"><div class="mav" style="background:rgba(234,88,12,.15);">&#127912;</div><div class="mname">Pak Yusuf</div><div class="mspec">Desainer Grafis &middot; Kota Kediri</div><div class="mtags"><span class="mt mtj">Jasa</span></div><a class="mwa">&#128172; Hubungi</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="cara-kerja" style="background:#fff;">
+  <div class="sec-in">
+    <div class="sec-head">
+      <div class="eye">Cara Kerja</div>
+      <div class="stitle">Mudah &amp; langsung</div>
+      <div class="ssub">Tidak ada perantara. Anggota terhubung langsung via WhatsApp. Tidak ada potongan apapun.</div>
+    </div>
+    <div class="hgrid">
+      <div class="hcard"><div class="hnum">01</div><span class="hicon">&#128203;</span><h3>Daftar &amp; Upload Foto</h3><p>Isi form, upload 1-2 foto produk atau jasa Anda. Gambar otomatis tersimpan online. Admin verifikasi dalam 24 jam.</p></div>
+      <div class="hcard"><div class="hnum">02</div><span class="hicon">&#128269;</span><h3>Tampil di Katalog</h3><p>Produk/jasa Anda tampil dengan foto di katalog komunitas, bisa dilihat semua anggota.</p></div>
+      <div class="hcard"><div class="hnum">03</div><span class="hicon">&#129309;</span><h3>Deal Langsung, Untung Penuh</h3><p>Pembeli hubungi Anda langsung via WhatsApp. Tidak ada potongan — 100% keuntungan untuk anggota komunitas kita.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-sec" id="bergabung">
+  <div class="cta-in">
+    <h2>Punya Keahlian atau Produk?</h2>
+    <p>Bergabunglah dan pasarkan kepada seluruh anggota komunitas. Gratis, mudah, saling menguntungkan.</p>
+    <div class="cta-btns">
+      <button class="btn b-white b-lg" onclick="openM('jual')">&#128722; Pasarkan Sekarang</button>
+      <button class="btn b-ghost b-lg" onclick="adm()">&#128172; Chat Admin</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fin">
+    <div class="ftop">
+      <div><div class="flogo"><div class="flm">&#128722;</div><span class="flt">Pasar<span>Kita</span></span></div><p class="fdesc">Marketplace komunitas untuk saling memasarkan jasa dan produk. Bersama kita lebih kuat.</p></div>
+      <div class="fcol"><h4>Platform</h4><a href="#katalog">Katalog</a><a href="#anggota">Direktori</a><a href="#cara-kerja">Cara Kerja</a></div>
+      <div class="fcol"><h4>Bergabung</h4><a href="#" onclick="openM('daftar')">Daftar Anggota</a><a href="#" onclick="openM('jual')">Pasarkan Produk</a><a href="#" onclick="openM('jual')">Tawarkan Jasa</a></div>
+      <div class="fcol"><h4>Kontak</h4><a href="#" onclick="adm()">WhatsApp Admin</a><a href="#">Instagram</a><a href="#">Wilayah: Kediri</a></div>
+    </div>
+    <div class="fbot"><span>&#169; 2025 PasarKita &mdash; Marketplace Komunitas</span><span>Dibuat dengan &#10084;&#65039; untuk komunitas</span></div>
+  </div>
+</footer>
+
+<button class="waf" onclick="adm()">&#128172;</button>
+
+<!-- MODAL PASARKAN + UPLOAD FOTO -->
+<div class="ov" id="ov-jual">
+  <div class="modal">
+    <button class="mx" onclick="closeM('jual')">&#10005;</button>
+    <h2>&#128722; Pasarkan ke Komunitas</h2>
+    <p class="msub-t">Gratis untuk anggota. Upload foto agar lebih menarik. Admin verifikasi dalam 24 jam.</p>
+    <div id="f-jual">
+      <div class="ttog">
+        <button class="tt on" id="tt-j" onclick="setType('jasa')">&#128296; Jasa / Keahlian</button>
+        <button class="tt" id="tt-p" onclick="setType('produk')">&#128230; Produk / Barang</button>
+      </div>
+      <div class="frow">
+        <div class="fg"><label>Nama lengkap *</label><input id="j-nm" type="text" placeholder="Nama Anda"></div>
+        <div class="fg"><label>WhatsApp aktif *</label><input id="j-wa" type="tel" placeholder="08xx-xxxx-xxxx"></div>
+      </div>
+      <div class="fg"><label id="j-il">Nama jasa yang ditawarkan *</label><input id="j-it" type="text" placeholder="Contoh: Les Matematika SMP"></div>
+      <div class="frow">
+        <div class="fg"><label>Harga / Tarif *</label><input id="j-pr" type="text" placeholder="Contoh: Rp 100rb/hari"></div>
+        <div class="fg"><label>Kategori</label><select id="j-ct"><option>Pendidikan &amp; Les</option><option>Kuliner &amp; Makanan</option><option>Fashion &amp; Pakaian</option><option>Elektronik &amp; Teknologi</option><option>Kerajinan &amp; Seni</option><option>Kesehatan &amp; Kecantikan</option><option>Pertanian &amp; Herbal</option><option>Perbaikan &amp; Instalasi</option><option>Desain &amp; Kreatif</option><option>Lainnya</option></select></div>
+      </div>
+      <div class="fg"><label>Area / Lokasi *</label><input id="j-ar" type="text" placeholder="Contoh: Kediri Kota, siap antar seluruh Kediri"></div>
+      <div class="fg"><label>Deskripsi singkat</label><textarea id="j-ds" placeholder="Ceritakan lebih lanjut tentang jasa/produk Anda..."></textarea></div>
+
+      <!-- UPLOAD FOTO -->
+      <div class="fg">
+        <label>&#128247; Foto Produk / Jasa (maks. 2 foto)</label>
+        <div class="upload-zone" id="upload-zone" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFiles(event)">
+          <input type="file" id="file-input" accept="image/*" multiple onchange="handleFiles(this.files)">
+          <div class="upload-icon">&#128247;</div>
+          <div class="upload-text">Klik atau seret foto ke sini</div>
+          <div class="upload-hint">Format: JPG, PNG, WEBP &middot; Maks. 2 foto &middot; Maks. 5MB/foto</div>
+        </div>
+        <div class="preview-grid" id="preview-grid"></div>
+        <div class="upload-progress" id="upload-progress">
+          <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+          <span class="progress-txt" id="progress-txt">Mengupload...</span>
+        </div>
+        <div class="upload-done" id="upload-done">&#10003; Foto berhasil diupload!</div>
+      </div>
+
+      <button class="fsub" id="submit-btn" onclick="subJual()">&#10003; Kirim ke Admin</button>
+      <div class="odiv">atau langsung</div>
+      <a class="wabtn" id="wj" href="#" target="_blank">&#128172; Daftar via WhatsApp</a>
+    </div>
+    <div class="ok-box" id="ok-jual">
+      <h3>&#127881; Berhasil dikirim!</h3>
+      <p>Admin akan verifikasi dan menghubungi Anda dalam 24 jam. Produk/jasa + foto segera tampil di katalog!</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DAFTAR -->
+<div class="ov" id="ov-daftar">
+  <div class="modal">
+    <button class="mx" onclick="closeM('daftar')">&#10005;</button>
+    <h2>&#129309; Daftar Anggota</h2>
+    <p class="msub-t">Bergabung ke direktori komunitas. Gratis dan terbuka untuk semua anggota.</p>
+    <div id="f-daftar">
+      <div class="frow">
+        <div class="fg"><label>Nama lengkap *</label><input id="d-nm" type="text" placeholder="Nama Anda"></div>
+        <div class="fg"><label>WhatsApp *</label><input id="d-wa" type="tel" placeholder="08xx-xxxx-xxxx"></div>
+      </div>
+      <div class="fg"><label>Pekerjaan / Profesi</label><input id="d-jb" type="text" placeholder="Contoh: Guru, Wiraswasta, Ibu Rumah Tangga"></div>
+      <div class="fg"><label>Wilayah domisili *</label><input id="d-ar" type="text" placeholder="Kecamatan / Kelurahan"></div>
+      <div class="fg"><label>Keahlian atau produk yang dimiliki (opsional)</label><textarea id="d-sk" placeholder="Ceritakan keahlian atau produk yang bisa Anda tawarkan ke komunitas..."></textarea></div>
+      <button class="fsub" onclick="subDaftar()">&#10003; Daftar Sekarang</button>
+      <div class="odiv">atau</div>
+      <a class="wabtn" id="wd" href="#" target="_blank">&#128172; Daftar via WhatsApp</a>
+    </div>
+    <div class="ok-box" id="ok-daftar"><h3>&#127881; Selamat bergabung!</h3><p>Admin akan konfirmasi via WhatsApp dalam 24 jam. Selamat datang di komunitas PasarKita!</p></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// KONFIGURASI — WAJIB DIISI
+// ============================================================
+const WA         = '6285655691811';  // ← GANTI nomor WA admin
+const APP        = 'PasarKita';
+const IMGBB_KEY  = 'dd035536e866fbd39089600e00e590d3';               // ← Opsional: API key ImgBB untuk upload foto otomatis
+
+// ← GANTI setelah setup Google Apps Script (lihat panduan)
+// Caranya: buka apps-script.js → ikuti langkah → paste URL di sini
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwE8-iI2uUeH3kvcmditnRzr5C57PLDLTVtqQib4Y-4EKFD3rBmJf4749D8CJABt9_e/exec';               // contoh: 'https://script.google.com/macros/s/ABC.../exec'
+// ============================================================
+
+// ============ STATUS BACKEND ============
+let backendReady = false; // true jika SCRIPT_URL sudah diisi
+
+// ============ DATA PRODUK AWAL ============
+const INIT_PRODUCTS = [
+  {id:'p1',type:'jasa',name:'Instalasi & Perbaikan Listrik',seller:'Pak Fadhil',price:'Rp 120rb/hari',cat:'Perbaikan & Instalasi',area:'Kediri Utara',img:'',emoji:'⚡',bg:'bg-or',wa:'Pak Fadhil'},
+  {id:'p2',type:'produk',name:'Kue Kering & Snack Homemade',seller:'Bu Hafsah',price:'Rp 45rb/toples',cat:'Kuliner & Makanan',area:'Ngasem',img:'',emoji:'🍪',bg:'bg-gn',wa:'Bu Hafsah'},
+  {id:'p3',type:'jasa',name:'Les Privat & Tahsin Al-Quran',seller:'Ustadzah Maryam',price:'Rp 80rb/sesi',cat:'Pendidikan & Les',area:'Kota Kediri',img:'',emoji:'📚',bg:'bg-bl',wa:'Ustadzah Maryam'},
+  {id:'p4',type:'produk',name:'Sablon Kaos & Percetakan',seller:'Pak Rizal',price:'Rp 35rb/pcs',cat:'Kerajinan & Seni',area:'Gampengrejo',img:'',emoji:'👕',bg:'bg-yw',wa:'Pak Rizal'},
+  {id:'p5',type:'produk',name:'Catering Harian & Snack Box',seller:'Bu Aminah',price:'Rp 20rb/porsi',cat:'Kuliner & Makanan',area:'Mojoroto',img:'',emoji:'🍱',bg:'bg-pk',wa:'Bu Aminah'},
+  {id:'p6',type:'jasa',name:'Service HP & Laptop',seller:'Pak Hasan',price:'Mulai Rp 50rb',cat:'Elektronik & Teknologi',area:'Kota Kediri',img:'',emoji:'📱',bg:'bg-pu',wa:'Pak Hasan'},
+  {id:'p7',type:'produk',name:'Hijab & Busana Muslim',seller:'Bu Salma',price:'Mulai Rp 75rb',cat:'Fashion & Pakaian',area:'Ngasem',img:'',emoji:'🧕',bg:'bg-pk',wa:'Bu Salma'},
+  {id:'p8',type:'jasa',name:'Desain Grafis & Logo',seller:'Pak Yusuf',price:'Mulai Rp 75rb',cat:'Desain & Kreatif',area:'Kota Kediri',img:'',emoji:'🎨',bg:'bg-bl',wa:'Pak Yusuf'},
+];
+
+// ============ STATE ============
+let selType = 'jasa';
+let uploadedUrls = [];
+let previewFiles = [];
+
+// ============ INIT ============
+// Cek apakah backend sudah dikonfigurasi
+backendReady = SCRIPT_URL.length > 10;
+
+async function getProducts(){
+  // Prioritas: Google Sheets (backend) → localStorage (lokal)
+  if(backendReady){
+    try {
+      const res  = await fetch(SCRIPT_URL + '?t=' + Date.now());
+      const data = await res.json();
+      if(Array.isArray(data)) return [...INIT_PRODUCTS, ...data];
+    } catch(e){ console.warn('Backend tidak tersambung, pakai data lokal'); }
+  }
+  const saved = JSON.parse(localStorage.getItem('pk_products')||'[]');
+  return [...INIT_PRODUCTS, ...saved];
+}
+
+function saveLocal(p){
+  const saved = JSON.parse(localStorage.getItem('pk_products')||'[]');
+  saved.unshift(p);
+  localStorage.setItem('pk_products', JSON.stringify(saved));
+}
+
+async function submitToBackend(data){
+  // Kirim ke Google Apps Script (fire-and-forget, no-cors)
+  try {
+    fetch(SCRIPT_URL, {
+      method : 'POST',
+      mode   : 'no-cors',   // Apps Script butuh ini
+      headers: {'Content-Type':'application/json'},
+      body   : JSON.stringify(data)
+    });
+    return true;
+  } catch(e){ return false; }
+}
+
+function renderCard(p, isNew=false){
+  const imgHTML = p.img
+    ? `<img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'">`
+    : '';
+  return `<div class="icard" onclick="wa('${p.wa||p.seller}','${p.name}')">
+    <div class="iimg ${p.bg||'bg-or'}">
+      ${isNew ? '<span class="new-badge">BARU</span>' : ''}
+      ${imgHTML}
+      <span class="emoji-fb">${p.emoji||'📦'}</span>
+    </div>
+    <div class="ibody">
+      <span class="itype ${p.type==='jasa'?'itj':'itp'}">${p.type.toUpperCase()}</span>
+      <div class="iname">${p.name}</div>
+      <div class="isell">👤 ${p.seller}</div>
+      <div class="ifooter">
+        <span class="iprice">${p.price}</span>
+        <button class="iwa" onclick="event.stopPropagation();wa('${p.wa||p.seller}','${p.name}')">💬</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderAddCard(){
+  return `<div class="icard add-card" onclick="openM('jual')" style="border:2px dashed var(--or-m);background:var(--or-s);">
+    <div class="iimg" style="background:transparent;flex-direction:column;gap:4px;">
+      <span style="font-size:32px;">➕</span>
+      <span style="font-size:12px;font-weight:600;color:var(--or);">Pasarkan Milik Anda</span>
+    </div>
+    <div class="ibody">
+      <div class="iname" style="color:var(--or);">Daftarkan jasa atau produk</div>
+      <div class="isell" style="color:var(--or3);">Gratis untuk anggota komunitas</div>
+      <div class="ifooter"><span class="iprice" style="color:var(--or);">Gratis!</span></div>
+    </div>
+  </div>`;
+}
+
+async function renderCatalog(){
+  // Tampilkan loading dulu
+  ['grid-semua','grid-jasa','grid-produk'].forEach(id=>{
+    document.getElementById(id).innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#a8a29e;font-size:14px;">⏳ Memuat katalog...</div>';
+  });
+
+  const all    = await getProducts();
+  const saved  = JSON.parse(localStorage.getItem('pk_products')||'[]');
+  const savedIds = new Set(saved.map(p=>p.id));
+
+  const gs = document.getElementById('grid-semua');
+  const gj = document.getElementById('grid-jasa');
+  const gp = document.getElementById('grid-produk');
+
+  gs.innerHTML = all.map(p=>renderCard(p, savedIds.has(p.id))).join('') + renderAddCard();
+  gj.innerHTML = all.filter(p=>p.type==='jasa').map(p=>renderCard(p, savedIds.has(p.id))).join('') + renderAddCard();
+  gp.innerHTML = all.filter(p=>p.type==='produk').map(p=>renderCard(p, savedIds.has(p.id))).join('') + renderAddCard();
+}
+
+renderCatalog();
+
+// ============ TABS ============
+function sw(t){
+  document.querySelectorAll('.tbtn').forEach((b,i)=>b.classList.toggle('on',['semua','jasa','produk'][i]===t));
+  document.querySelectorAll('.tcont').forEach(c=>c.classList.remove('on'));
+  document.getElementById('t-'+t).classList.add('on');
+}
+
+// ============ TYPE TOGGLE ============
+function setType(t){
+  selType=t;
+  document.getElementById('tt-j').classList.toggle('on',t==='jasa');
+  document.getElementById('tt-p').classList.toggle('on',t==='produk');
+  document.getElementById('j-il').textContent=t==='jasa'?'Nama jasa yang ditawarkan *':'Nama produk / barang *';
+  document.getElementById('j-it').placeholder=t==='jasa'?'Contoh: Les Matematika SMP':'Contoh: Kue Nastar Homemade';
+}
+
+// ============ MODAL ============
+function openM(id){
+  document.getElementById('ov-'+id).classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('wj').href='https://wa.me/'+WA+'?text='+encodeURIComponent('Halo Admin '+APP+', saya ingin mendaftarkan jasa/produk saya.');
+  document.getElementById('wd').href='https://wa.me/'+WA+'?text='+encodeURIComponent('Halo Admin '+APP+', saya ingin mendaftar sebagai anggota komunitas.');
+}
+function closeM(id){
+  document.getElementById('ov-'+id).classList.remove('open');
+  document.body.style.overflow='';
+}
+document.querySelectorAll('.ov').forEach(el=>el.addEventListener('click',e=>{
+  if(e.target===el){el.classList.remove('open');document.body.style.overflow='';}
+}));
+
+// ============ IMAGE UPLOAD ============
+function dragOver(e){e.preventDefault();document.getElementById('upload-zone').classList.add('drag');}
+function dragLeave(e){document.getElementById('upload-zone').classList.remove('drag');}
+function dropFiles(e){e.preventDefault();dragLeave(e);handleFiles(e.dataTransfer.files);}
+
+function handleFiles(files){
+  const remaining = 2 - previewFiles.length;
+  if(remaining<=0){alert('Maksimal 2 foto.');return;}
+  const toAdd = Array.from(files).slice(0,remaining);
+  toAdd.forEach(f=>{
+    if(!f.type.startsWith('image/')){alert('Hanya file gambar yang diperbolehkan.');return;}
+    if(f.size>5*1024*1024){alert('Ukuran file maksimal 5MB.');return;}
+    previewFiles.push(f);
+  });
+  renderPreviews();
+  // Clear input so same file can be picked again
+  document.getElementById('file-input').value='';
+}
+
+function renderPreviews(){
+  const grid = document.getElementById('preview-grid');
+  grid.innerHTML = previewFiles.map((f,i)=>{
+    const url = URL.createObjectURL(f);
+    return `<div class="preview-item">
+      <img src="${url}" alt="preview">
+      <button class="preview-del" onclick="removePreview(${i})">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function removePreview(i){
+  previewFiles.splice(i,1);
+  uploadedUrls.splice(i,1);
+  renderPreviews();
+  document.getElementById('upload-done').classList.remove('show');
+}
+
+async function uploadToImgBB(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = async e=>{
+      try {
+        const base64 = e.target.result.split(',')[1];
+        const fd = new FormData();
+        fd.append('key', IMGBB_KEY);
+        fd.append('image', base64);
+        const res = await fetch('https://api.imgbb.com/1/upload',{method:'POST',body:fd});
+        const data = await res.json();
+        if(data.success) resolve(data.data.url);
+        else reject('Upload gagal');
+      } catch(err){reject(err);}
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadAllImages(){
+  if(!previewFiles.length) return [];
+  if(!IMGBB_KEY){
+    // Tanpa API key: kembalikan preview URL lokal (tidak persisten)
+    return previewFiles.map(f=>URL.createObjectURL(f));
+  }
+  const prog = document.getElementById('upload-progress');
+  const bar = document.getElementById('progress-bar');
+  const txt = document.getElementById('progress-txt');
+  prog.classList.add('show');
+  const urls = [];
+  for(let i=0;i<previewFiles.length;i++){
+    txt.textContent = `Mengupload foto ${i+1}/${previewFiles.length}...`;
+    bar.style.width = ((i/previewFiles.length)*100)+'%';
+    const url = await uploadToImgBB(previewFiles[i]);
+    urls.push(url);
+  }
+  bar.style.width='100%';
+  prog.classList.remove('show');
+  document.getElementById('upload-done').classList.add('show');
+  return urls;
+}
+
+// ============ SUBMIT JUAL ============
+async function subJual(){
+  const nm=document.getElementById('j-nm').value.trim();
+  const w=document.getElementById('j-wa').value.trim();
+  const it=document.getElementById('j-it').value.trim();
+  const pr=document.getElementById('j-pr').value.trim();
+  const ct=document.getElementById('j-ct').value;
+  const ar=document.getElementById('j-ar').value.trim();
+  const ds=document.getElementById('j-ds').value.trim();
+  if(!nm||!w||!it||!pr||!ar){alert('Mohon lengkapi data yang wajib diisi (*)');return;}
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled=true;
+  btn.textContent='⏳ Memproses...';
+
+  let imgUrls=[];
+  try{ imgUrls = await uploadAllImages(); }
+  catch(e){ console.warn('Upload gagal, lanjut tanpa foto'); }
+
+  const tip=selType==='jasa'?'JASA':'PRODUK';
+  const em=selType==='jasa'?'🔧':'📦';
+  let imgInfo = imgUrls.length
+    ? '\n🖼 Foto: ' + imgUrls.join(' | ')
+    : previewFiles.length
+      ? '\n🖼 Ada ' + previewFiles.length + ' foto (akan dikirim terpisah)'
+      : '';
+
+  const msg=`${em} *PENDAFTARAN ${tip} — ${APP}*\n\n👤 Nama: ${nm}\n📱 WA: ${w}\n${em} ${tip}: ${it}\n💰 Harga: ${pr}\n🏷 Kategori: ${ct}\n📍 Area: ${ar}\n📝 Deskripsi: ${ds||'-'}${imgInfo}\n\n_Dikirim via website ${APP}_`;
+
+  const newProduct = {
+    id   : 'u'+Date.now(),
+    type : selType,
+    name : it,
+    seller: nm,
+    price: pr,
+    cat  : ct,
+    area : ar,
+    img  : imgUrls[0]||'',
+    emoji: selType==='jasa'?'🔧':'📦',
+    bg   : selType==='jasa'?'bg-or':'bg-gn',
+    wa   : w,
+    desc : ds
+  };
+
+  if(backendReady){
+    // ✅ Backend aktif: kirim ke Google Sheets (status: Menunggu persetujuan admin)
+    await submitToBackend(newProduct);
+    // Tidak simpan ke localStorage — tampil hanya setelah admin approve
+  } else {
+    // ⚠️ Backend belum aktif: simpan lokal (langsung tampil, tanpa approval)
+    saveLocal(newProduct);
+    renderCatalog();
+  }
+
+  // Kirim notif WA ke admin
+  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
+  document.getElementById('f-jual').style.display='none';
+
+  // Tampilkan pesan sukses sesuai mode
+  const okBox = document.getElementById('ok-jual');
+  okBox.innerHTML = backendReady
+    ? '<h3>📨 Produk dikirim ke admin!</h3><p>Admin akan memeriksa dan menyetujui produk Anda. Setelah disetujui, produk langsung muncul di katalog secara otomatis untuk semua pengunjung.</p>'
+    : '<h3>✅ Produk tersimpan!</h3><p>Produk Anda sudah tampil di katalog. Hubungi admin untuk verifikasi agar tampil permanen.</p>';
+  okBox.classList.add('show');
+}
+
+// ============ SUBMIT DAFTAR ============
+function subDaftar(){
+  const nm=document.getElementById('d-nm').value.trim();
+  const w=document.getElementById('d-wa').value.trim();
+  const jb=document.getElementById('d-jb').value.trim();
+  const ar=document.getElementById('d-ar').value.trim();
+  const sk=document.getElementById('d-sk').value.trim();
+  if(!nm||!w||!ar){alert('Mohon lengkapi data yang wajib diisi (*)');return;}
+  const msg='*DAFTAR ANGGOTA — '+APP+'*\n\n👤 Nama: '+nm+'\n📱 WA: '+w+'\n💼 Profesi: '+(jb||'-')+'\n📍 Wilayah: '+ar+'\n✨ Keahlian/Produk: '+(sk||'-')+'\n\n_Dikirim via website '+APP+'_';
+  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank');
+  document.getElementById('f-daftar').style.display='none';
+  document.getElementById('ok-daftar').classList.add('show');
+}
+
+// ============ WA ============
+function wa(nama,produk){
+  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent('Halo, saya tertarik dengan *'+produk+'* dari *'+nama+'* di '+APP+'. Apakah masih tersedia?'),'_blank');
+}
+function adm(){
+  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent('Halo Admin '+APP+', saya ingin bertanya.'),'_blank');
+}
+
+// ============ SCROLL ============
+window.addEventListener('scroll',()=>{
+  document.querySelector('nav').style.boxShadow=window.scrollY>20?'0 2px 20px rgba(0,0,0,.07)':'none';
+});
+</script>
+</body>
+</html>
